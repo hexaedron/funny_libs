@@ -14,7 +14,7 @@ void vk16k33::digit( uint8_t digit, uint8_t idx, bool dot)
     this->data[idx * 2 + 2] = digits[digit] >> 8;
     if(dot) 
     {
-        this->data[idx * 2 + 3] |= (VK16K33_SEGMENT_DOT >> 8);
+        this->data[idx * 2 + 2] |= (VK16K33_SEGMENT_DOT >> 8);
     }
 }
 
