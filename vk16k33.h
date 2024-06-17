@@ -37,7 +37,7 @@
 #define VK16K33_SEGMENT_SLASH_R_DOWN      0x2000, // прав низ
 #define VK16K33_SEGMENT_DOT               0x4000 // точка
 
-const uint16_t digits[12] = 
+const uint16_t digits[13] = 
 {
   0x003F, // 0
   0x0406, // 1
@@ -50,7 +50,8 @@ const uint16_t digits[12] =
   0x00FF, // 8
   0x00EF, // 9
   0x0160, // deg
-  0x2DE4  // %
+  0x2DE4, // %
+  0     , // SPACE
 };
 
 class vk16k33
