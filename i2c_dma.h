@@ -24,7 +24,7 @@
 #pragma once
 
 #include "ch32v003fun.h"
-#include "cube_defs.h"
+#include "funny_defs.h"
 
 #define F_CPU FUNCONF_SYSTEM_CORE_CLOCK
 

@@ -27,3 +27,5 @@
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
 #define map(x, in_min, in_max, out_min, out_max)  ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
+#define ASCII_TO_INT(x) (x - 48)
