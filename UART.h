@@ -1,4 +1,5 @@
 #pragma once
+#include "funny_defs.h"
 
 #define APB_CLOCK FUNCONF_SYSTEM_CORE_CLOCK
 #define OVER8DIV 4
