@@ -2,7 +2,7 @@
 
 void vk16k33::refresh()
 {
-    I2C_start(0x70);
+    I2C_start(this->i2c_address);
     this->data[0] = 0;
 	I2C_writeBuffer(data, sizeof(data));
     I2C_stop();
