@@ -158,19 +158,19 @@ uint32_t bmp280::compensate_pressure(int32_t adc_press, int32_t t_fine) {
  *
  * Return value is in Pa, 24 integer bits and 8 fractional bits.
  */
-uint32_t bmp280::compensate_humidity(int32_t adc_hum, int32_t t_fine) {
+uint32_t __attribute__((optimize("O3"))) bmp280::compensate_humidity(int32_t adc_hum, int32_t t_fine) {
 	int32_t v_x1_u32r;
 
 	v_x1_u32r = t_fine - (int32_t) 76800;
-	v_x1_u32r = ((((adc_hum << 14) - ((int32_t) this->bmp280_handle.dig_H4 << 20)
+	v_x1_u32r = ((((adc_hum << 14) - ((int32_t)this->bmp280_handle.dig_H4 << 20)
 			- ((int32_t) this->bmp280_handle.dig_H5 * v_x1_u32r)) + (int32_t) 16384) >> 15)
-			* (((((((v_x1_u32r * (int32_t) this->bmp280_handle.dig_H6) >> 10)
+			* (((((((v_x1_u32r * (int32_t)this->bmp280_handle.dig_H6) >> 10)
 					* (((v_x1_u32r * (int32_t) this->bmp280_handle.dig_H3) >> 11)
 							+ (int32_t) 32768)) >> 10) + (int32_t) 2097152)
-					* (int32_t) this->bmp280_handle.dig_H2 + 8192) >> 14);
+					* (int32_t)this->bmp280_handle.dig_H2 + 8192) >> 14);
 	v_x1_u32r = v_x1_u32r
 			- (((((v_x1_u32r >> 15) * (v_x1_u32r >> 15)) >> 7)
-					* (int32_t) this->bmp280_handle.dig_H1) >> 4);
+					* (int32_t)this->bmp280_handle.dig_H1) >> 4);
 	v_x1_u32r = v_x1_u32r < 0 ? 0 : v_x1_u32r;
 	v_x1_u32r = v_x1_u32r > 419430400 ? 419430400 : v_x1_u32r;
 	return v_x1_u32r >> 12;
