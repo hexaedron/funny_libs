@@ -49,7 +49,7 @@ const uint16_t digits[13] =
   0x1401, // 7
   0x00FF, // 8
   0x00EF, // 9
-  0x0160, // deg
+  0x00E3, // deg
   0x2DE4, // %
   0     , // SPACE
 };
