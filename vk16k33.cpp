@@ -30,6 +30,8 @@ void vk16k33::setI2CAddress(uint8_t newAddr)
 
 void vk16k33::init()
 {
+    this->brightness = 0;
+    
     I2C_start(this->i2c_address);
 	    I2C_write(VK16K33_CMD_INIT);
 	I2C_stop();
@@ -46,6 +48,7 @@ void vk16k33::init()
 void vk16k33::setBrightness(uint8_t br = 0)
 {
     if(br > 0xF) br = 0xF;
+    this->brightness = br;
 
     I2C_start(this->i2c_address);
 	    I2C_write( VK16K33_CMD_BRIGHTNESS | br );
@@ -65,4 +68,27 @@ void vk16k33::setBlink(uint8_t blink)
     I2C_start(this->i2c_address);
 	    I2C_write(VK16K33_CMD_SETUP | VK16K33_CMD_DISPLAY_ON | blink);
 	I2C_stop();
+}
+
+void vk16k33::decBrightness(void)
+{
+    if(this->brightness != 0)
+    {
+        this->brightness--;
+        this->setBrightness(this->brightness);
+    }
+}
+
+void vk16k33::incBrightness(void)
+{
+    if(this->brightness != 16)
+    {
+        this->brightness++;
+        this->setBrightness(this->brightness);
+    }
+}
+
+void vk16k33::getBrightness(void)
+{
+    return this->brightness;
 }

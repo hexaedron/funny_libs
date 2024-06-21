@@ -59,6 +59,7 @@ class vk16k33
 private:
     uint8_t data[9];
     uint8_t i2c_address = VK16K33_DEFAULT_I2C_ADDRESS;
+    uint8_t brightness;
 public:
     void setI2CAddress(uint8_t);    
     void init();
@@ -67,6 +68,9 @@ public:
     void clear();
     void setBrightness(uint8_t);
     void setBlink(uint8_t);
+    void incBrightness(void);
+    void decBrightness(void);
+    uint8_t getBrightness(void);
 };
 
 
