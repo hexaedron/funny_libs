@@ -88,7 +88,7 @@ void vk16k33::incBrightness(void)
     }
 }
 
-void vk16k33::getBrightness(void)
+uint8_t vk16k33::getBrightness(void)
 {
     return this->brightness;
 }
