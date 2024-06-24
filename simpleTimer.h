@@ -4,7 +4,7 @@
 uint64_t millis(void);
 uint32_t millis32(void);
 
-class simpleTimer 
+class simpleTimer
 {
   public:
     simpleTimer();

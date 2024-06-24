@@ -1,3 +1,6 @@
+// based on https://github.com/AlekseySedyshev/BME280/tree/master/32F042_LCD_128x64_BME280
+
+
 #ifndef __BMP280_H__
 #define __BMP280_H__
 
