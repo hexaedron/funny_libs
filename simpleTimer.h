@@ -1,16 +1,15 @@
 #pragma once
 #include <cstdint>
 
-uint64_t millis(void);
-uint32_t millis32(void);
+#include "funny_time.h"
 
-class simpleTimer
+class simpleTimer64
 {
   public:
-    simpleTimer();
-    simpleTimer (uint64_t);
-    simpleTimer (uint32_t);
-    simpleTimer (int32_t);
+    simpleTimer64();
+    simpleTimer64 (uint64_t);
+    simpleTimer64 (uint32_t);
+    simpleTimer64 (int32_t);
     void setPrd(uint32_t);
     void start_int();
     void stop();

@@ -1,45 +1,45 @@
 #include "simpleTimer.h"
     
-simpleTimer::simpleTimer () 
+simpleTimer64::simpleTimer64 () 
 {
 
 }
 
-simpleTimer::simpleTimer (uint64_t nprd) 
+simpleTimer64::simpleTimer64 (uint64_t nprd) 
 {
   prd = nprd;
   start_int();
 }
 
-simpleTimer::simpleTimer (uint32_t nprd) 
+simpleTimer64::simpleTimer64 (uint32_t nprd) 
 {
   prd = (uint64_t)nprd;
   start_int();
 }
 
-simpleTimer::simpleTimer (int32_t nprd) 
+simpleTimer64::simpleTimer64 (int32_t nprd) 
 {
   prd = (uint64_t)nprd;
   start_int();
 }
 
-void simpleTimer::setPrd(uint32_t nprd)
+void simpleTimer64::setPrd(uint32_t nprd)
 {
   prd = (uint64_t)nprd;
 }
 
-void simpleTimer::start_int() 
+void simpleTimer64::start_int() 
 {
   tmr = millis();
   if (tmr == 0ULL) tmr = 1ULL;
 }
 
-void simpleTimer::stop() 
+void simpleTimer64::stop() 
 {
   tmr = 0ULL;
 }
 
-bool simpleTimer::ready() 
+bool simpleTimer64::ready() 
 {
   if ( (tmr != 0ULL) && ( (millis() - tmr) >= prd ) )
   {
