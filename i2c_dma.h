@@ -28,16 +28,8 @@
 
 #define F_CPU FUNCONF_SYSTEM_CORE_CLOCK
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// I2C Parameters
-#define I2C_CLKRATE   400000    // I2C bus clock rate (Hz)
-#define I2C_MAP       0         // I2C pin mapping (see above)
-
 // I2C Functions
-void I2C_init(void);              // I2C init function
+void I2C_init(const uint32_t clkrate = 100000, const uint8_t map = 0);              // I2C init function
 void I2C_start(uint8_t addr);     // I2C start transmission, addr must contain R/W bit
 void I2C_stop(void);              // I2C stop transmission
 void I2C_write(uint8_t data);     // I2C transmit one data byte via I2C
@@ -52,6 +44,3 @@ void     I2C_readMulti(uint8_t addr, uint8_t reg, uint8_t * dst, uint8_t count);
 
 #define I2C_busy()                (I2C1->STAR2 & I2C_STAR2_BUSY)
 
-#ifdef __cplusplus
-};
-#endif
