@@ -29,3 +29,7 @@
 #define map(x, in_min, in_max, out_min, out_max)  ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 #define ASCII_TO_INT(x) (x - 48)
+
+#define FUN_INPUT_PULLUP 1
+#define FUN_INPUT_PULLDOWN 0
+#define funInputPullUpDown( pin, mode ) { GpioOf( pin )->OUTDR = (GpioOf( pin )->OUTDR & ~(1 << (pin & 0xf))) | (mode << (pin & 0xf)); }

@@ -98,7 +98,7 @@ void HD44780_i2c::write4bits(uint8_t value)
 
 void HD44780_i2c::expanderWrite(uint8_t _data)
 {     
-    I2C_start(this->_Addr);
+    I2C_startWrite(this->_Addr);
         I2C_write((_data) | this->_backlightval);
 	I2C_stop();  
 }

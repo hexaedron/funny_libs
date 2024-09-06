@@ -6,7 +6,7 @@
 #include "i2c_dma.h"
 
 // Read/write flag
-//uint8_t I2C_rwflag;
+uint8_t I2C_rwflag;
 
 // Init I2C
 void I2C_init(const uint32_t clkrate, const uint8_t map) {
@@ -80,14 +80,14 @@ void I2C_init(const uint32_t clkrate, const uint8_t map) {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 void I2C_start(uint8_t addr) {
-  //funPinMode(PC2, GPIO_Speed_10MHz | GPIO_CNF_OUT_OD_AF);
   while(I2C1->STAR2 & I2C_STAR2_BUSY);            // wait until bus ready
   I2C1->CTLR1 |= I2C_CTLR1_START                  // set START condition
                | I2C_CTLR1_ACK;                   // set ACK
   while(!(I2C1->STAR1 & I2C_STAR1_SB));           // wait for START generated
-  I2C1->DATAR = addr<<1;                             // send slave address + R/W bit
+  I2C1->DATAR = addr;                             // send slave address + R/W bit
   while(!(I2C1->STAR1 & I2C_STAR1_ADDR));         // wait for address transmitted
   uint16_t reg = I2C1->STAR2;                     // clear flags
+  I2C_rwflag = addr & 1;                          // set read/write flag
 }
 #pragma GCC diagnostic pop
 
@@ -107,13 +107,12 @@ uint8_t I2C_read(uint8_t ack) {
   return I2C1->DATAR;                             // return received data byte
 }
 
-#define FUN_INPUT_PULLUP 1
-#define FUN_INPUT_PULLDOWN 0
-#define funInputPullUpDown( pin, mode ) { GpioOf( pin )->OUTDR = (GpioOf( pin )->OUTDR & ~(1 << (pin & 0xf))) | (mode << (pin & 0xf)); }
 // Stop I2C transmission
 void I2C_stop(void) {
+    if(!I2C_rwflag) {                               // only if not already stopped
     while(!(I2C1->STAR1 & I2C_STAR1_BTF));        // wait for last byte transmitted
     I2C1->CTLR1 |= I2C_CTLR1_STOP;                // set STOP condition
+  }
 }
 
 // Send data buffer via I2C bus using DMA
@@ -142,7 +141,7 @@ void I2C_readBuffer(uint8_t* buf, uint16_t len) {
 uint8_t  I2C_readReg8(uint8_t addr, uint8_t reg) 
 {
 	uint8_t tmp;
-	I2C_start(addr);
+	I2C_startWrite(addr);
 	I2C_write(reg);
 	while (!(I2C1->STAR1 & I2C_STAR1_BTF))
     {
@@ -168,7 +167,7 @@ uint8_t  I2C_readReg8(uint8_t addr, uint8_t reg)
 
 void I2C_writeReg8(uint8_t addr, uint8_t reg, uint8_t value) 
 {
-	I2C_start(addr); 
+	I2C_startWrite(addr); 
 	I2C_write(reg);
 	I2C_write(value);
 	I2C_stop();
@@ -176,7 +175,7 @@ void I2C_writeReg8(uint8_t addr, uint8_t reg, uint8_t value)
 
 void I2C_readMulti(uint8_t addr, uint8_t reg, uint8_t * dst, uint8_t count)
 {
-	I2C_start(addr); 
+	I2C_startWrite(addr); 
 	I2C_write(reg);
 	while (!(I2C1->STAR1 & I2C_STAR1_BTF))
     {
