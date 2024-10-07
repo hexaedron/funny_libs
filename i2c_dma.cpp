@@ -143,24 +143,8 @@ uint8_t  I2C_readReg8(uint8_t addr, uint8_t reg)
 	uint8_t tmp;
 	I2C_startWrite(addr);
 	I2C_write(reg);
-	while (!(I2C1->STAR1 & I2C_STAR1_BTF))
-    {
-    }; // Byte transfer finished
-    I2C1->CTLR1 |= I2C_CTLR1_START;
-    while (!(I2C1->STAR1 & I2C_STAR1_SB))
-    {
-    }; // Start - Generated
-    I2C1->DATAR = (addr << 1) | 1;
-    while (!(I2C1->STAR1 & I2C_STAR1_ADDR))
-    {
-    }; // ACK - Received
-    while (!(I2C1->STAR2 & I2C_STAR2_MSL))
-    {
-    }; // Master mode
-       //---------------Reading-------------------------
-    while (!(I2C1->STAR1 & I2C_STAR1_RXNE))
-    {
-    };
+  I2C_stop();
+  I2C_startRead(addr);
 	tmp = I2C_read(0); 
 	return tmp;
 }
@@ -175,25 +159,8 @@ void I2C_writeReg8(uint8_t addr, uint8_t reg, uint8_t value)
 
 void I2C_readMulti(uint8_t addr, uint8_t reg, uint8_t * dst, uint8_t count)
 {
-	I2C_startWrite(addr); 
-	I2C_write(reg);
-	while (!(I2C1->STAR1 & I2C_STAR1_BTF))
-    {
-    }; // Byte transfer finished
-    I2C1->CTLR1 |= I2C_CTLR1_START;
-    while (!(I2C1->STAR1 & I2C_STAR1_SB))
-    {
-    }; // Start - Generated
-    I2C1->DATAR = (addr << 1) | 1;
-    while (!(I2C1->STAR1 & I2C_STAR1_ADDR))
-    {
-    }; // ACK - Received
-    while (!(I2C1->STAR2 & I2C_STAR2_MSL))
-    {
-    }; // Master mode
-       //---------------Reading-------------------------
-    while (!(I2C1->STAR1 & I2C_STAR1_RXNE))
-    {
-    };
-	I2C_readBuffer(dst, count);
+  for(uint8_t i = 0; i < count; i++)
+  {
+    dst[i] = I2C_readReg8(addr, reg++);
+  }
 }

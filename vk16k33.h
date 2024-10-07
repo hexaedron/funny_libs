@@ -37,7 +37,7 @@
 #define VK16K33_SEGMENT_SLASH_R_DOWN      0x2000, // прав низ
 #define VK16K33_SEGMENT_DOT               0x4000 // точка
 
-const uint16_t digits[13] = 
+const uint16_t digits[] = 
 {
   0x003F, // 0
   0x0406, // 1
@@ -52,12 +52,14 @@ const uint16_t digits[13] =
   0x00E3, // deg
   0x2DE4, // %
   0     , // SPACE
+  0x0700, // Arrow down
+  0x3800  // Arrow up 
 };
 
 class vk16k33
 {
 private:
-    uint8_t data[9];
+    uint8_t __attribute__ ((aligned(4))) data[12] = {0};
     uint8_t i2c_address = VK16K33_DEFAULT_I2C_ADDRESS;
     uint8_t brightness;
 public:

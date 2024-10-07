@@ -34,8 +34,8 @@ void I2C_start(uint8_t addr);     // I2C start transmission, addr must contain R
 void I2C_stop(void);              // I2C stop transmission
 void I2C_write(uint8_t data);     // I2C transmit one data byte via I2C
 uint8_t I2C_read(uint8_t ack);    // I2C receive one data byte from the slave
-#define I2C_startRead(addr)  I2C_start((addr) << 1 | 1)
-#define I2C_startWrite(addr) I2C_start((addr) << 1 | 0)
+#define I2C_startRead(addr)  I2C_start(((addr) << 1) | (uint8_t)1)
+#define I2C_startWrite(addr) I2C_start(((addr) << 1) | (uint8_t)0)
 
 void I2C_writeBuffer(uint8_t* buf, uint16_t len);
 void I2C_readBuffer(uint8_t* buf, uint16_t len);
