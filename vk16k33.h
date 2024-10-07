@@ -59,7 +59,7 @@ const uint16_t digits[] =
 class vk16k33
 {
 private:
-    uint8_t __attribute__ ((aligned(4))) data[12] = {0};
+    uint8_t data[9] = {0};
     uint8_t i2c_address = VK16K33_DEFAULT_I2C_ADDRESS;
     uint8_t brightness;
 public:
