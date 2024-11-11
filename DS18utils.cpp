@@ -20,8 +20,12 @@ void copyAddress(const uint64_t& address, uint8_t* buf) {
     }
 }
 
+// https://stackoverflow.com/questions/15053776/how-do-you-disable-the-unused-variable-warnings-coming-out-of-gcc-in-3rd-party-c
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static char _getChar(uint8_t b) {
     return (char)(b + ((b > 9) ? 55 : '0'));
 }
+#pragma GCC diagnostic pop
 
 }  // namespace gds
