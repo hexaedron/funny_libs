@@ -1,5 +1,5 @@
 #pragma once
-#include "ch32v003fun.h"
+#include "ch32fun.h"
 
 class tim2Encoder
 {

@@ -4,7 +4,7 @@
 #ifndef __BMP280_H__
 #define __BMP280_H__
 
-#include "ch32v003fun.h"
+#include "ch32fun.h"
 #include <stdint.h>
 #include <stdbool.h>
 

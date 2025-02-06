@@ -3,7 +3,7 @@
 // Based on a perfect AlexGyver library:
 // https://github.com/GyverLibs/GyverDS18
 
-#include <ch32v003fun.h>
+#include <ch32fun.h>
 
 #include "GyverOneWire.h"
 #include "DS18utils.h"

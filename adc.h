@@ -1,7 +1,7 @@
 #ifndef _ADC_H
 #define _ADC_H
 
-#include "ch32v003fun.h"
+#include "ch32fun.h"
 
 constexpr uint32_t pin2ADC(uint32_t pin)
 {

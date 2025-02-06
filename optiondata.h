@@ -1,6 +1,6 @@
 // based on https://github.com/cnlohr/ch32v003fun/blob/master/examples/optiondata/optiondata.c
 
-#include "ch32v003fun.h"
+#include "ch32fun.h"
 
 void FlashOptionData(uint8_t data0, uint8_t data1) 
 {

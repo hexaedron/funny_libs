@@ -1,7 +1,7 @@
 #ifndef HD44780_i2c_h
 #define HD44780_i2c_h
 
-#include <ch32v003fun.h>
+#include <ch32fun.h>
 #include <cstdint>
 #include "i2c_dma.h"
 
