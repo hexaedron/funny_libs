@@ -87,7 +87,7 @@ bool btnHeld(void)
 /**
 *   Systick interrupt handler. It only counts millis.
 */
-extern "C" INTERRUPT_HANDLER
+extern "C" INTERRUPT_DECORATOR
 __attribute__((section(".srodata"))) 
 void SysTick_Handler(void)
 { 

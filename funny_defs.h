@@ -9,14 +9,6 @@
 #define HW_PORT_NUM(pin) ( (pin & 0xFFFFFFF0) >> 4 )
 #define HW_PIN_NUM(pin)  (  pin & 0xF )
 
-#define WCH_FAST_INTERRUPT_ENABLED
-
-#ifdef WCH_FAST_INTERRUPT_ENABLED
-  #define INTERRUPT_HANDLER __attribute__((interrupt("WCH-Interrupt-fast")))
-#else
-  #define INTERRUPT_HANDLER __attribute__((interrupt)) 
-#endif
-
 // Arduino-like bit macros
 #define bit(n)                    (1 << (n))
 #define bitSet(value, n)          ((value) |= bit(n))

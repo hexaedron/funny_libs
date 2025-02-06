@@ -181,7 +181,7 @@ void UART::flush(void)
     USART1->CTLR1 |= USART_FLAG_RXNE;
 }
 
-extern "C" void USART1_IRQHandler( void ) INTERRUPT_HANDLER;
+extern "C" void USART1_IRQHandler( void ) INTERRUPT_DECORATOR;
 extern "C" void USART1_IRQHandler(void) 
 {
     if(USART1->STATR & USART_FLAG_RXNE) 

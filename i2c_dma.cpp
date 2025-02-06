@@ -124,7 +124,7 @@ void I2C_writeBuffer(uint8_t* buf, uint16_t len) {
 }
 
 // Interrupt service routine
-void DMA1_Channel6_IRQHandler(void) INTERRUPT_HANDLER;
+void DMA1_Channel6_IRQHandler(void) INTERRUPT_DECORATOR;
 void DMA1_Channel6_IRQHandler(void) {
   I2C1->CTLR2         &= ~I2C_CTLR2_DMAEN;        // disable DMA request
   DMA1_Channel6->CFGR &= ~DMA_CFG6_EN;            // disable DMA channel
