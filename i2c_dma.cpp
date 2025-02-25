@@ -69,9 +69,9 @@ void I2C_init(const uint32_t clkrate, const uint8_t map) {
   // Setup DMA Channel 5
   RCC->AHBPCENR |= RCC_DMA1EN;                    // enable DMA module clock
   DMA1_Channel6->PADDR = (uint32_t)&I2C1->DATAR;  // peripheral address
-  DMA1_Channel6->CFGR  = DMA_CFG6_MINC            // increment memory address
-                       | DMA_CFG6_DIR             // memory to I2C
-                       | DMA_CFG6_TCIE;           // transfer complete interrupt enable
+  DMA1_Channel6->CFGR  = DMA_CFGR6_MINC            // increment memory address
+                       | DMA_CFGR6_DIR             // memory to I2C
+                       | DMA_CFGR6_TCIE;           // transfer complete interrupt enable
   DMA1->INTFCR         = DMA_CGIF6;               // clear interrupt flags
   NVIC_EnableIRQ(DMA1_Channel6_IRQn);             // enable the DMA IRQ
 }
@@ -119,7 +119,7 @@ void I2C_stop(void) {
 void I2C_writeBuffer(uint8_t* buf, uint16_t len) {
   DMA1_Channel6->CNTR  = len;                     // number of bytes to be transfered
   DMA1_Channel6->MADDR = (uint32_t)buf;           // memory address
-  DMA1_Channel6->CFGR |= DMA_CFG6_EN;             // enable DMA channel
+  DMA1_Channel6->CFGR |= DMA_CFGR6_EN;             // enable DMA channel
   I2C1->CTLR2         |= I2C_CTLR2_DMAEN;         // enable DMA request
 }
 
@@ -127,7 +127,7 @@ void I2C_writeBuffer(uint8_t* buf, uint16_t len) {
 void DMA1_Channel6_IRQHandler(void) INTERRUPT_DECORATOR;
 void DMA1_Channel6_IRQHandler(void) {
   I2C1->CTLR2         &= ~I2C_CTLR2_DMAEN;        // disable DMA request
-  DMA1_Channel6->CFGR &= ~DMA_CFG6_EN;            // disable DMA channel
+  DMA1_Channel6->CFGR &= ~DMA_CFGR6_EN;            // disable DMA channel
   DMA1->INTFCR         = DMA_CGIF6;               // clear interrupt flags
   while(!(I2C1->STAR1 & I2C_STAR1_BTF));          // wait for last byte transmitted
   I2C1->CTLR1         |= I2C_CTLR1_STOP;          // set STOP condition
