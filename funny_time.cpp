@@ -1,11 +1,7 @@
 #include "funny_time.h"
 
 //Globals
-static volatile uint64_t     _millis       = 0ULL;    // Millisecons counter
-static volatile uint32_t     _btn_millis   = 0;       // Button millisecons counter
-static volatile bool         _keyPressed   = false;   // Button pressed flag  
-static volatile bool         _keyHeld      = false;   // Button held flag
-static volatile bool         _keyRaw       = false;   // Raw key read status
+volatile uint64_t     _millis       = 0ULL;    // Millisecons counter
 
 // Arduino-like millis()
 uint64_t millis(void)
@@ -37,49 +33,4 @@ void system_initSystick(uint32_t period)
 
   NVIC_SetPriority(SysTicK_IRQn, 1);
   NVIC_EnableIRQ(SysTicK_IRQn);
-}
-
-void keyTick()
-{
-    static uint32_t keyTemp = 0;
-
-    if(_btn_millis < BUTTON_TICK_MS) return;
-    _btn_millis = 0;
-    
-    if (!_keyRaw)           // Button pressed
-    {
-        ++keyTemp;    
-    }
-    else                    // Button released  
-    {
-        if (keyTemp >= (BUTTON_HOLD_TIMEOUT_MS / BUTTON_TICK_MS))        
-        {
-            _keyHeld = true;        
-        }
-        else        
-        {
-            if (keyTemp > (BUTTON_DEBOUNCE_MS / BUTTON_TICK_MS)) _keyPressed = true;        
-        }
-        keyTemp = 0;    
-    }
-}
-
-bool btnClick(void)
-{
-  if(_keyPressed)
-  {
-    _keyPressed = false;
-    return true;
-  }
-  return false;
-}
-
-bool btnHeld(void)
-{
-  if(_keyHeld)
-  {
-    _keyHeld = false;
-    return true;
-  }
-  return false;
 }
