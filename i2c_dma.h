@@ -29,7 +29,7 @@
 #define F_CPU FUNCONF_SYSTEM_CORE_CLOCK
 
 // I2C Functions
-void I2C_init(const uint32_t clkrate = 100000, const uint8_t map = 0);              // I2C init function
+void I2C_init(const uint32_t clkrate = 100000, const uint32_t SCLpin = PB6, const uint32_t SDApin = PB7);              // I2C init function
 void I2C_start(uint8_t addr);     // I2C start transmission, addr must contain R/W bit
 void I2C_stop(void);              // I2C stop transmission
 void I2C_write(uint8_t data);     // I2C transmit one data byte via I2C

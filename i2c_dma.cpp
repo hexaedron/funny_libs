@@ -9,46 +9,13 @@
 uint8_t I2C_rwflag;
 
 // Init I2C
-void I2C_init(const uint32_t clkrate, const uint8_t map) {
+void I2C_init(const uint32_t clkrate, const uint32_t SCLpin, const uint32_t SDApin) {
   
   // Setup GPIO pins
-  switch (map)
-  {
-    case 0:
-      // Set pin PC1 (SDA) and PC2 (SCL) to output, open-drain, 10MHz, multiplex
-      RCC->APB2PCENR |= RCC_AFIOEN | RCC_IOPCEN;
-      GPIOC->CFGLR = (GPIOC->CFGLR & ~(((uint32_t)0b1111<<(1<<2)) | ((uint32_t)0b1111<<(2<<2))))
-                                    |  (((uint32_t)0b1101<<(1<<2)) | ((uint32_t)0b1101<<(2<<2)));
-    break;
-    
-    case 1:
-      // Set pin PD0 (SDA) and PD1 (SCL) to output, open-drain, 10MHz, multiplex
-      RCC->APB2PCENR |= RCC_AFIOEN | RCC_IOPDEN;
-      AFIO->PCFR1    |= 1<<1;
-      GPIOD->CFGLR = (GPIOD->CFGLR & ~(((uint32_t)0b1111<<(0<<2)) | ((uint32_t)0b1111<<(1<<2))))
-                                  |  (((uint32_t)0b1101<<(0<<2)) | ((uint32_t)0b1101<<(1<<2)));
-    break;
-  
-    case 2:
-      // Set pin PC6 (SDA) and PC5 (SCL) to output, open-drain, 10MHz, multiplex
-      RCC->APB2PCENR |= RCC_AFIOEN | RCC_IOPCEN;
-      AFIO->PCFR1    |= 1<<22;
-      GPIOC->CFGLR = (GPIOC->CFGLR & ~(((uint32_t)0b1111<<(6<<2)) | ((uint32_t)0b1111<<(5<<2))))
-                                  |  (((uint32_t)0b1101<<(6<<2)) | ((uint32_t)0b1101<<(5<<2)));
-    break;
-  
-    case 3:
-      // Set pin PC6 (SDA) and PC5 (SCL) to output, open-drain, 10MHz, multiplex
-      RCC->APB2PCENR |= RCC_AFIOEN | RCC_IOPCEN;
-      AFIO->PCFR1    |= 1<<22;
-      GPIOC->CFGLR = (GPIOC->CFGLR & ~(((uint32_t)0b1111<<(6<<2)) | ((uint32_t)0b1111<<(5<<2))))
-                                  |  (((uint32_t)0b1101<<(6<<2)) | ((uint32_t)0b1101<<(5<<2)));
-    break;
-  
-
-    default:
-    break;
-  }
+  // Set pin SDA and SCL to output, open-drain, 10MHz, multiplex
+  RCC->APB2PCENR |= RCC_AFIOEN | RCC_IOPCEN;
+  funPinMode(SCLpin, GPIO_CFGLR_OUT_10Mhz_AF_OD);
+  funPinMode(SDApin, GPIO_CFGLR_OUT_10Mhz_AF_OD);
 
   // Setup and enable I2C
   RCC->APB1PCENR |= RCC_I2C1EN;                   // enable I2C module clock
