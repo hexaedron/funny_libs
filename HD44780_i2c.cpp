@@ -10,6 +10,11 @@ HD44780_i2c::HD44780_i2c(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows)
     this->_backlightval = LCD_NOBACKLIGHT;
 }
 
+bool HD44780_i2c::detected()
+{
+	return i2c_ping(_Addr);
+}
+
 void HD44780_i2c::init()
 {
     this->_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;

@@ -55,6 +55,7 @@ class HD44780_i2c
 {
     public:
         HD44780_i2c(uint8_t lcd_Addr = 0x27, uint8_t lcd_cols = 20, uint8_t lcd_rows = 4);
+        bool detected();
         void init();
         void clear();
         void home();

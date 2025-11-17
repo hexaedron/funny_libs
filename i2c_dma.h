@@ -46,3 +46,15 @@ void     I2C_readMulti(uint8_t addr, uint8_t reg, uint8_t * dst, uint8_t count);
 
 #define I2C_busy()                (I2C1->STAR2 & I2C_STAR2_BUSY)
 
+typedef enum 
+{
+	I2C_OK	  = 0,   // No Error. All OK
+	I2C_ERR_BERR,	 // Bus Error
+	I2C_ERR_NACK,	 // ACK Bit failed
+	I2C_ERR_ARLO,	 // Arbitration Lost
+	I2C_ERR_OVR,	 // Overun/underrun condition
+	I2C_ERR_BUSY,	 // Bus was busy and timed out
+} i2c_err_t;
+
+bool i2c_ping(const uint8_t addr);
+

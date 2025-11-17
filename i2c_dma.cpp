@@ -131,3 +131,26 @@ void I2C_readMulti(uint8_t addr, uint8_t reg, uint8_t * dst, uint8_t count)
     dst[i] = I2C_readReg8(addr, reg++);
   }
 }
+
+static inline i2c_err_t i2c_error(void)
+{
+	if(I2C1->STAR1 & I2C_STAR1_BERR)  {I2C1->STAR1 &= ~I2C_STAR1_BERR;  return I2C_ERR_BERR;}
+	if(I2C1->STAR1 & I2C_STAR1_AF)    {I2C1->STAR1 &= ~I2C_STAR1_AF;    return I2C_ERR_NACK;}
+	if(I2C1->STAR1 & I2C_STAR1_ARLO)  {I2C1->STAR1 &= ~I2C_STAR1_ARLO;  return I2C_ERR_ARLO;}
+	if(I2C1->STAR1 & I2C_STAR1_OVR)   {I2C1->STAR1 &= ~I2C_STAR1_OVR;   return I2C_ERR_OVR;}
+
+	return I2C_OK;
+}
+
+bool i2c_ping(const uint8_t addr)
+{
+	// Send the address and get the status
+	I2C_startWrite(addr);
+
+  i2c_err_t i2c_ret = i2c_error();
+
+	// Signal a STOP without wait
+	I2C1->CTLR1 |= I2C_CTLR1_STOP;
+
+	return i2c_ret == I2C_OK;
+}
