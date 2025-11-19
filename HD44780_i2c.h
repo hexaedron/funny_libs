@@ -64,6 +64,7 @@ class HD44780_i2c
         void noBacklight();
         void backlight();
         void printChar(char);
+        void fillChar(char, size_t);
         void createChar(uint8_t, const uint8_t[]);
         void noBlink();
         void blink();

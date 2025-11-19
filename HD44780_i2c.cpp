@@ -257,3 +257,11 @@ void HD44780_i2c::print( float val)
 	snprintf(buf, 11, "%g", val);
 	this->print(buf);
 }
+
+void HD44780_i2c::fillChar(char c, size_t num)
+{
+	for(size_t i = 0; i < num; i++)
+	{
+		this->printChar(c);
+	}
+}
