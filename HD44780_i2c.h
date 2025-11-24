@@ -72,14 +72,13 @@ class HD44780_i2c
         void cursor();
         void scrollDisplayLeft();
         void scrollDisplayRight();
-        void printLeft();
-        void printRight();
         void leftToRight();
         void rightToLeft();
         void shiftIncrement();
         void shiftDecrement();
         void autoscroll();
         void noAutoscroll();
+        void flushCharmap();
         void print(char*);
         void print(uint32_t val, uint32_t radix = 10);
         void print( int32_t val, uint32_t radix = 10);
@@ -94,7 +93,15 @@ class HD44780_i2c
         void command(uint8_t);
         void send(uint8_t, uint8_t);
         void pulseEnable(uint8_t);
+        void printCyrillicChar(uint32_t);
+        int8_t searchCharmap(const uint8_t*);
+        void stepCursor(void);
+        const uint8_t* charmap[8]{nullptr};
+        uint8_t pushCyrChar(const uint8_t*);
+        uint8_t currentCyrChar{0};
         uint8_t _Addr;
+        uint8_t _col{0};
+        uint8_t _row{0};
         uint8_t _displayfunction;
         uint8_t _displaycontrol;
         uint8_t _displaymode;
@@ -131,6 +138,7 @@ namespace cyrillicGlyphs
     const uint8_t Y[]       = {0x11, 0x11, 0x11, 0x0a, 0x04, 0x08, 0x10, 0x00};
 
     const uint8_t be[]      = {0x03, 0x0c, 0x10, 0x1e, 0x11, 0x11, 0x0e, 0x00};
+    const uint8_t ve[]      = {0x00, 0x00, 0x1c, 0x12, 0x1c, 0x12, 0x1c, 0x00};
     const uint8_t ghe[]     = {0x00, 0x00, 0x1e, 0x12, 0x10, 0x10, 0x10, 0x00};
     const uint8_t de[]      = {0x00, 0x00, 0x0f, 0x05, 0x09, 0x11, 0x1f, 0x11};
     const uint8_t zhe[]     = {0x00, 0x00, 0x15, 0x15, 0x0e, 0x15, 0x15, 0x00};
@@ -138,6 +146,8 @@ namespace cyrillicGlyphs
     const uint8_t i[]       = {0x00, 0x00, 0x11, 0x13, 0x15, 0x19, 0x11, 0x00};
     const uint8_t ikr[]     = {0x00, 0x0a, 0x04, 0x11, 0x13, 0x15, 0x19, 0x00};
     const uint8_t l[]       = {0x00, 0x00, 0x0f, 0x05, 0x05, 0x15, 0x09, 0x00};
+    const uint8_t m[]       = {0x00, 0x00, 0x11, 0x1b, 0x15, 0x11, 0x11, 0x00};
+    const uint8_t n[]       = {0x00, 0x00, 0x11, 0x11, 0x1f, 0x11, 0x11, 0x00};
     const uint8_t p[]       = {0x00, 0x00, 0x1f, 0x11, 0x11, 0x11, 0x11, 0x00};
     const uint8_t f[]       = {0x00, 0x04, 0x04, 0x0e, 0x15, 0x15, 0x0e, 0x04};
     const uint8_t tse[]     = {0x00, 0x00, 0x12, 0x12, 0x12, 0x12, 0x1f, 0x01};

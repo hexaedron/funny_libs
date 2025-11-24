@@ -132,6 +132,8 @@ void HD44780_i2c::clear()
 
 void HD44780_i2c::setCursor(uint8_t col, uint8_t row)
 {
+	this->_col = col;
+	this->_row = row;
 	const uint8_t row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
 	if ( row > this->_numlines ) {
 		row = this->_numlines-1;    // we count rows starting w/0
@@ -161,6 +163,7 @@ void HD44780_i2c::backlight(void)
 void HD44780_i2c::printChar(char c)
 {
     this->send(c, 1);
+	this->stepCursor();
 }
 
 void HD44780_i2c::createChar(uint8_t location, const uint8_t charmap[]) 
@@ -231,10 +234,31 @@ void HD44780_i2c::print(char* str)
 	uint8_t pos = 0;
 	while (str[pos] != '\0')
 	{
-		this->printChar(str[pos]);
-		pos++;
-	}
-	
+		if((uint8_t)str[pos] < 0x80) // ASCII char
+		{
+			this->printChar(str[pos]);
+			pos++;
+		}
+		else // Unicode symbol
+		{
+			uint32_t unicode_char = 0;
+			if ((str[pos] & 0xE0) == 0xC0) // 2-byte UTF-8
+			{ 
+                //unicode_char = ((str[pos] & 0x1F) << 6) | (str[pos + 1] & 0x3F);
+				unicode_char = ((uint32_t)(unsigned char)str[pos] << 8) | (unsigned char)str[pos + 1];
+                pos += 2;
+				this->printCyrillicChar(unicode_char);
+			}
+			else if ((str[pos] & 0xF0) == 0xE0) // 3-byte UTF-8
+			{ 
+                pos += 3;
+			}
+			else // Unknown unicode char
+			{
+				pos++;
+			}
+		}
+	}	
 }
 
 void HD44780_i2c::print(uint32_t val, uint32_t radix)
@@ -263,5 +287,17 @@ void HD44780_i2c::fillChar(char c, size_t num)
 	for(size_t i = 0; i < num; i++)
 	{
 		this->printChar(c);
+	}
+}
+
+// Keeping track of current cursor position
+// because createChar() resets the cursor position
+void HD44780_i2c::stepCursor(void)
+{
+	this->_col++;
+	if(this->_cols < this->_col)
+	{
+		this->_col = 0;
+		this->_row++;
 	}
 }
