@@ -80,6 +80,7 @@ class HD44780_i2c
         void noAutoscroll();
         void flushCharmap();
         void print(char*);
+        void printASCII(char*);
         void print(uint32_t val, uint32_t radix = 10);
         void print( int32_t val, uint32_t radix = 10);
         void print(uint64_t val, uint32_t radix = 10);

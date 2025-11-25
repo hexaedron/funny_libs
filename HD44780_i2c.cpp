@@ -261,6 +261,16 @@ void HD44780_i2c::print(char* str)
 	}	
 }
 
+void HD44780_i2c::printASCII(char* str)
+{
+	uint8_t pos = 0;
+	while (str[pos] != '\0')
+	{
+		this->printChar(str[pos]);
+		pos++;
+	}
+}
+
 void HD44780_i2c::print(uint32_t val, uint32_t radix)
 {
 	char buf[11];
