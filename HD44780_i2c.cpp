@@ -234,6 +234,11 @@ void HD44780_i2c::print(char* str)
 	uint8_t pos = 0;
 	while (str[pos] != '\0')
 	{
+		if(this->_col == this->_cols)
+		{
+			this->setCursor(0, (this->_row + 1) % this->_rows);
+		}
+
 		if((uint8_t)str[pos] < 0x80) // ASCII char
 		{
 			this->printChar(str[pos]);
@@ -243,8 +248,7 @@ void HD44780_i2c::print(char* str)
 		{
 			uint32_t unicode_char = 0;
 			if ((str[pos] & 0xE0) == 0xC0) // 2-byte UTF-8
-			{ 
-                //unicode_char = ((str[pos] & 0x1F) << 6) | (str[pos + 1] & 0x3F);
+			{
 				unicode_char = ((uint32_t)(unsigned char)str[pos] << 8) | (unsigned char)str[pos + 1];
                 pos += 2;
 				this->printCyrillicChar(unicode_char);
