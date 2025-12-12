@@ -46,17 +46,20 @@ void I2C_init(const uint32_t clkrate, const uint32_t SCLpin, const uint32_t SDAp
 // Start I2C transmission (addr must contain R/W bit)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
-void I2C_start(uint8_t addr, uint32_t timeout) 
+bool I2C_start(uint8_t addr, uint32_t timeout) 
 {
-  while(I2C1->STAR2 & I2C_STAR2_BUSY);            // wait until bus ready
+  int32_t t = timeout;
+  while( (I2C1->STAR2 & I2C_STAR2_BUSY)) {t--; if (t == 0) return false;};            // wait until bus ready
   I2C1->CTLR1 |= I2C_CTLR1_START                  // set START condition
                | I2C_CTLR1_ACK;                   // set ACK
   while(!(I2C1->STAR1 & I2C_STAR1_SB));           // wait for START generated
   I2C1->DATAR = addr;                             // send slave address + R/W bit
-  uint32_t t = timeout;
-  while(!(I2C1->STAR1 & I2C_STAR1_ADDR) || (t-- > 0));         // wait for address transmitted with timeout
+  t = timeout;
+  while(!(I2C1->STAR1 & I2C_STAR1_ADDR) ) {t--; if (t == 0) return false;};         // wait for address transmitted with timeout
   uint16_t reg = I2C1->STAR2;                     // clear flags
   I2C_rwflag = addr & 1;                          // set read/write flag
+
+  return true;
 }
 #pragma GCC diagnostic pop
 
@@ -146,10 +149,10 @@ static inline i2c_err_t i2c_error(void)
 
 bool i2c_ping(const uint8_t addr)
 {
-	// Send the address and get the status
-	I2C_startWrite(addr);
-
-  i2c_err_t i2c_ret = i2c_error();
+	i2c_err_t i2c_ret = i2c_err_t::I2C_OK;
+  
+  // Send the address and get the status
+	if(!I2C_startWrite(addr)) {i2c_ret = i2c_err_t::I2C_ERR_BUSY;};
 
 	// Signal a STOP without wait
 	I2C1->CTLR1 |= I2C_CTLR1_STOP;

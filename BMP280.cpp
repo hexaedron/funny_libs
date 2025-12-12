@@ -217,7 +217,6 @@ void bmp280::read_fixed() {
 
 	this->temperature = compensate_temperature(adc_temp, &fine_temp);
 	
-	//*pressure = bmp280_Pa_to_mmHg(compensate_pressure(adc_pressure, fine_temp));
 	this->pressure = compensate_pressure(adc_pressure, fine_temp);
 
 	if (this->humidity) {
@@ -237,6 +236,11 @@ uint32_t bmp280::getPressurePa()
 	return this->pressure;
 }
 
+uint32_t bmp280::getPressureMbar()
+{
+	return (this->pressure + 12800) / 25600;
+}
+
 uint32_t bmp280::getPressureMmHg()
 {
 	return this->Pa_to_mmHg(this->pressure);
@@ -245,6 +249,11 @@ uint32_t bmp280::getPressureMmHg()
 uint32_t bmp280::getHumidity()
 {
 	return this->humidity;
+}
+
+uint32_t bmp280::getHumidityTenths()
+{
+	return (this->humidity * 10 + 512) >> 10;
 }
 
 void bmp280::setI2CAddress(uint8_t addr)

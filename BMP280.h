@@ -188,6 +188,8 @@ int32_t getTemp();
 uint32_t getPressurePa();
 uint32_t getPressureMmHg();
 uint32_t getHumidity();
+uint32_t getHumidityTenths();
+uint32_t getPressureMbar();
 void setI2CAddress(uint8_t);
 bool detected() {return i2c_ping(this->i2cAddress); };
 
