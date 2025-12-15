@@ -46,7 +46,7 @@ void I2C_init(const uint32_t clkrate, const uint32_t SCLpin, const uint32_t SDAp
 // Start I2C transmission (addr must contain R/W bit)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
-bool I2C_start(uint8_t addr, uint32_t timeout) 
+bool I2C_start(uint8_t addr, int32_t timeout) 
 {
   int32_t t = timeout;
   while( (I2C1->STAR2 & I2C_STAR2_BUSY)) {t--; if (t == 0) return false;};            // wait until bus ready
@@ -64,18 +64,20 @@ bool I2C_start(uint8_t addr, uint32_t timeout)
 #pragma GCC diagnostic pop
 
 // Send data byte via I2C bus
-void I2C_write(uint8_t data) {
-  while(!(I2C1->STAR1 & I2C_STAR1_TXE));          // wait for last byte transmitted
+void I2C_write(uint8_t data, int32_t timeout) {
+  int32_t t = timeout;
+  while(!(I2C1->STAR1 & I2C_STAR1_TXE)) {t--; if (t == 0) return; };          // wait for last byte transmitted
   I2C1->DATAR = data;                             // send data byte
 }
 
 // Read data byte via I2C bus (ack=0 for last byte, ack>0 if more bytes to follow)
-uint8_t I2C_read(uint8_t ack) {
+uint8_t I2C_read(uint8_t ack, int32_t timeout) {
   if(!ack) {                                      // last byte?
     I2C1->CTLR1 &= ~I2C_CTLR1_ACK;                // -> set NAK
     I2C1->CTLR1 |=  I2C_CTLR1_STOP;               // -> set STOP condition
   }
-  while(!(I2C1->STAR1 & I2C_STAR1_RXNE));         // wait for data byte received
+  int32_t t = timeout;
+  while(!(I2C1->STAR1 & I2C_STAR1_RXNE)) {t--; if (t == 0) return false;};         // wait for data byte received
   return I2C1->DATAR;                             // return received data byte
 }
 
