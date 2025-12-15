@@ -260,3 +260,20 @@ void bmp280::setI2CAddress(uint8_t addr)
 {
 	this->i2cAddress = addr;
 }
+
+bool bmp280::smartDetect()
+{
+	this->i2cAddress = BMP280_I2C_ADDRESS_0; 
+	if(this->detected()) { return true; }
+
+	this->i2cAddress = BMP280_I2C_ADDRESS_1;
+	if(this->detected()) { return true; }
+
+	this->i2cAddress = BME280_I2C_ADDRESS_0;
+	if(this->detected()) { return true; }
+
+	this->i2cAddress = BME280_I2C_ADDRESS_1;
+	if(this->detected()) { return true; }
+
+	return false;
+}

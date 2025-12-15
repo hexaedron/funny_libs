@@ -13,10 +13,11 @@
  * SDO pin is low.
  */
 
-#define BMP280_I2C_ADDRESS_0  0x76
-#define BMP280_I2C_ADDRESS_1  0x77
+#define BME280_I2C_ADDRESS_0  0x76
+#define BME280_I2C_ADDRESS_1  0x77
 
-#define BME280_ADDRESS	0xEC //0xEE (0x76<<1) / (0x77<<1)
+#define BMP280_I2C_ADDRESS_0	0xEC 
+#define BMP280_I2C_ADDRESS_1	0xEE
 
 #define BMP280_CHIP_ID  0x58 /* BMP280 has chip-id 0x58 */
 #define BME280_CHIP_ID  0x60 /* BME280 has chip-id 0x60 */
@@ -192,6 +193,7 @@ uint32_t getHumidityTenths();
 uint32_t getPressureMbar();
 void setI2CAddress(uint8_t);
 bool detected() {return i2c_ping(this->i2cAddress); };
+bool smartDetect();
 
 
 private:
@@ -204,6 +206,6 @@ private:
     uint32_t Pa_to_mmHg(uint32_t p_pa);
     uint32_t  pressure,	humidity;	
 	int32_t temperature;
-    uint8_t i2cAddress = BMP280_I2C_ADDRESS_0;
+    uint8_t i2cAddress = BME280_I2C_ADDRESS_0;
 };
 #endif  // __BMP280_H__
