@@ -40,9 +40,9 @@ bool AHT20::getStatus(uint8_t bit)
 bool AHT20::initialize()
 {
     I2C_startWrite(this->_deviceAddress);
-    I2C_write(CMD_INITIALIZE);
-    I2C_write((uint8_t)0x08);
-    I2C_write((uint8_t)0x00);
+      I2C_write(CMD_INITIALIZE);
+      I2C_write((uint8_t)0x08);
+      I2C_write((uint8_t)0x00);
     I2C_stop();
     return true;
 }
@@ -50,9 +50,10 @@ bool AHT20::initialize()
 bool AHT20::triggerMeasurement()
 {
     I2C_startWrite(this->_deviceAddress);
-    I2C_write(CMD_TRIGGER);
-    I2C_write((uint8_t)0x33);
-    I2C_write((uint8_t)0x00);
+      I2C_write(CMD_TRIGGER);
+      I2C_write((uint8_t)0x33);
+      I2C_write((uint8_t)0x00);
+    I2C_stop();
     return true;
 }
 
