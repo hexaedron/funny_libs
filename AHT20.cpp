@@ -9,9 +9,8 @@ AHT20::AHT20(const uint8_t deviceAddress){
 
 bool AHT20::begin()
 {
-
-  //Check if the calibrated bit is set. If not, init the sensor.
-  if (!getStatus(BIT_CALIBRATED)){
+    softReset();
+    Delay_Ms(10);
     initialize();
     Delay_Ms(10);
     triggerMeasurement();
@@ -22,7 +21,6 @@ bool AHT20::begin()
         if (counter++ > 100) return false;
     }
     if (!getStatus(BIT_CALIBRATED)) return false;
-  }
 
   return true;
 }
@@ -57,38 +55,38 @@ bool AHT20::triggerMeasurement()
     return true;
 }
 
-//Loads the
 void AHT20::readData()
 {
     _sensorData.temperature = 0;
     _sensorData.humidity = 0;
+    uint8_t buf[7];
 
     I2C_startRead(this->_deviceAddress);
-        I2C_read(true); // status byte
-
-        uint32_t incoming = 0;
-        incoming = ((uint32_t)I2C_read(true) << 16);
-        incoming |= ((uint32_t)I2C_read(true) << 8);
-        uint8_t midByte = I2C_read(true);
-
-        incoming |= midByte;
-        _sensorData.humidity = incoming >> 4; // 20bits
-
-        _sensorData.temperature = ((uint32_t)midByte << 16);
-        _sensorData.temperature |= ((uint32_t)I2C_read(true) << 8);
-        _sensorData.temperature |= (uint32_t)I2C_read(true);
-
-        _sensorData.crc = I2C_read(false); // last byte
-        //Need to get rid of data in bits > 20
-        _sensorData.temperature = _sensorData.temperature & ~(0xFFF00000);
-        
+        I2C_readBuffer(buf, 7); 
     I2C_stop();
+
+    uint32_t incoming = 0;
+    incoming = ((uint32_t)buf[1] << 16);
+    incoming |= ((uint32_t)buf[2] << 8);
+    uint8_t midByte = buf[3];
+
+    incoming |= midByte;
+    _sensorData.humidity = incoming >> 4; // 20bits
+
+    _sensorData.temperature = ((uint32_t)midByte << 16);
+    _sensorData.temperature |= ((uint32_t)buf[4] << 8);
+    _sensorData.temperature |= (uint32_t)buf[5];
+
+    _sensorData.crc = buf[7]; // last byte
+    //Need to get rid of data in bits > 20
+    _sensorData.temperature = _sensorData.temperature & ~(0xFFF00000);
+
 }
 
 bool AHT20::softReset()
 {
     I2C_startWrite(this->_deviceAddress);
-    I2C_write(CMD_SOFTRESET);
+      I2C_write(CMD_SOFTRESET);
     I2C_stop();
     return true;
 }
@@ -96,15 +94,13 @@ bool AHT20::softReset()
 int AHT20::getTemperature()
 {
   //From datasheet pg 8
-  return (_sensorData.temperature / 1048576) * 200 - 500;
-  
-  //int64_t t1000 = ((int64_t)_sensorData.temperature * 200000LL) / 1048576LL - 50000LL;
-  //return (int32_t)((t1000 + 50) / 100);
+  int64_t t10 = ((int64_t)_sensorData.temperature * 200LL) / 1048576LL - 500LL;
+  return (int32_t)(t10);
 }
 
 int AHT20::getHumidity()
 {
-
   //From datasheet pg 8
-  return (_sensorData.humidity / 1048576) * 100;
+  uint64_t hum10 = ((int64_t)_sensorData.humidity * 1000LL) / 1048576LL;
+  return (uint32_t)hum10;
 }

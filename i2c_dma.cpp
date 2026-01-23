@@ -108,7 +108,9 @@ void DMA1_Channel6_IRQHandler(void) {
 }
 
 // Read data via I2C bus to buffer and stop
-void I2C_readBuffer(uint8_t* buf, uint16_t len) {
+void I2C_readBuffer(uint8_t* buf, uint16_t len) 
+{
+  if(len > 1) {I2C1->CTLR1 |= I2C_CTLR1_ACK;}
   while(len--) *buf++ = I2C_read(len > 0);
 }
 
