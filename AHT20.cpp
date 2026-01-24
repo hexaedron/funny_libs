@@ -94,13 +94,13 @@ bool AHT20::softReset()
 int AHT20::getTemperature()
 {
   //From datasheet pg 8
-  int64_t t10 = ((int64_t)_sensorData.temperature * 200LL) / 1048576LL - 500LL;
+  int64_t t10 = (((int64_t)_sensorData.temperature * 2000LL) >> 20) - 500LL;
   return (int32_t)(t10);
 }
 
 int AHT20::getHumidity()
 {
   //From datasheet pg 8
-  uint64_t hum10 = ((int64_t)_sensorData.humidity * 1000LL) / 1048576LL;
-  return (uint32_t)hum10;
+  int hum10 = ((int)_sensorData.humidity * 1000) >> 20;
+  return (int)hum10;
 }
