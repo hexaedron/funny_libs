@@ -101,6 +101,6 @@ int AHT20::getTemperature()
 int AHT20::getHumidity()
 {
   //From datasheet pg 8
-  int hum10 = ((int)_sensorData.humidity * 1000) >> 20;
+  int hum10 = ((int)_sensorData.humidity * 1000U) >> 20U;
   return (int)hum10;
 }
