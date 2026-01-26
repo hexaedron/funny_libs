@@ -94,7 +94,7 @@ class HD44780_i2c
         void command(uint8_t);
         void send(uint8_t, uint8_t);
         void pulseEnable(uint8_t);
-        void printCyrillicChar(uint32_t);
+        virtual void printCyrillicChar(uint32_t);
         int8_t searchCharmap(const uint8_t*);
         void stepCursor(void);
         const uint8_t* charmap[8]{nullptr};
@@ -110,6 +110,15 @@ class HD44780_i2c
         uint8_t _cols;
         uint8_t _rows;
         uint8_t _backlightval;
+};
+
+class HD44780Cyrillic_i2c : public HD44780_i2c
+{
+    public:
+        using HD44780_i2c::HD44780_i2c;
+        
+    private:
+        void printCyrillicChar(uint32_t) override;
 };
 
 // Cyrillic glyphs

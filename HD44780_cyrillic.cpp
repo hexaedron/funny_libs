@@ -77,6 +77,83 @@ void HD44780_i2c::printCyrillicChar(uint32_t cyrChar)
     }
 }
 
+void HD44780Cyrillic_i2c::printCyrillicChar(uint32_t cyrChar)
+{
+    switch (cyrChar)
+    {
+        case 0xd0b0: this->printChar('a');         break;
+        case 0xd0b1: this->printChar(0xb2);        break;
+        case 0xd0b2: this->printChar(0xb3);        break;
+        case 0xd0b3: this->printChar(0xb4);        break;
+        case 0xd0b4: this->printChar(0xe3);        break;
+        case 0xd0b5: this->printChar('e');         break;
+        case 0xd191: this->printChar(0xb5);        break;
+        case 0xd0b6: this->printChar(0xb6);        break;
+        case 0xd0b7: this->printChar(0xb7);        break;
+        case 0xd0b8: this->printChar(0xb8);        break;
+        case 0xd0b9: this->printChar(0xb9);        break;
+        case 0xd0ba: this->printChar(0xba);        break;
+        case 0xd0bb: this->printChar(0xbb);        break;
+        case 0xd0bc: this->printChar(0xbc);        break;
+        case 0xd0bd: this->printChar(0xbd);        break;
+        case 0xd0be: this->printChar('o');         break;
+        case 0xd0bf: this->printChar(0xbe);        break;
+        case 0xd180: this->printChar('p');         break;
+        case 0xd181: this->printChar('c');         break;
+        case 0xd182: this->printChar(0xbf);        break;
+        case 0xd183: this->printChar('y');         break;
+        case 0xd184: this->printChar(0xe4);        break;
+        case 0xd185: this->printChar('x');         break;
+        case 0xd186: this->printChar(0xe5);        break;
+        case 0xd187: this->printChar(0xc0);        break;
+        case 0xd188: this->printChar(0xc1);        break;
+        case 0xd189: this->printChar(0xe6);        break;
+        case 0xd18a: this->printChar(0xc2);        break;
+        case 0xd18b: this->printChar(0xc3);        break;
+        case 0xd18c: this->printChar(0xc4);        break;
+        case 0xd18d: this->printChar(0xc5);        break;
+        case 0xd18e: this->printChar(0xc6);        break;
+        case 0xd18f: this->printChar(0xc7);        break;
+
+
+        case 0xd090: this->printChar('A');  break; 
+        case 0xd091: this->printChar(0xa0); break; 
+        case 0xd092: this->printChar('B');  break; 
+        case 0xd093: this->printChar(0xa1); break; 
+        case 0xd094: this->printChar(0xe0); break;
+        case 0xd095: this->printChar('E');  break; 
+        case 0xd081: this->printChar(0xa2); break; 
+        case 0xd096: this->printChar(0xa3); break; 
+        case 0xd097: this->printChar(0xa4); break; 
+        case 0xd098: this->printChar(0xa5); break;
+        case 0xd099: this->printChar(0xa6); break; 
+        case 0xd09a: this->printChar('K');  break; 
+        case 0xd09b: this->printChar(0xa7); break; 
+        case 0xd09c: this->printChar('M');  break; 
+        case 0xd09d: this->printChar('H');  break; 
+        case 0xd09e: this->printChar('O');  break; 
+        case 0xd09f: this->printChar(0xa8); break; 
+        case 0xd0a0: this->printChar('P');  break; 
+        case 0xd0a1: this->printChar('C');  break; 
+        case 0xd0a2: this->printChar('T');  break; 
+        case 0xd0a3: this->printChar(0xa9); break;
+        case 0xd0a4: this->printChar(0xaa); break; 
+        case 0xd0a5: this->printChar('X');  break; 
+        case 0xd0a6: this->printChar(0xe1); break;
+        case 0xd0a7: this->printChar(0xab); break;
+        case 0xd0a8: this->printChar(0xac); break;
+        case 0xd0a9: this->printChar(0xe2); break; 
+        case 0xd0aa: this->printChar(0xad); break; 
+        case 0xd0ab: this->printChar(0xae); break; 
+        case 0xd0ac: this->printChar(0xc4); break; // ь instead if Ь
+        case 0xd0ad: this->printChar(0xaf); break; 
+        case 0xd0ae: this->printChar(0xb0); break; 
+        case 0xd0af: this->printChar(0xb1); break; 
+
+        default: break;
+    }
+}
+
 uint8_t HD44780_i2c::pushCyrChar(const uint8_t* cyrChar)
 {
     int8_t ret = this->searchCharmap(cyrChar);
