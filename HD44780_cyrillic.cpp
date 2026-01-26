@@ -116,39 +116,39 @@ void HD44780Cyrillic_i2c::printCyrillicChar(uint32_t cyrChar)
         case 0xd18f: this->printChar(0xc7);        break;
 
 
-        case 0xd090: this->printChar('A');  break; 
-        case 0xd091: this->printChar(0xa0); break; 
-        case 0xd092: this->printChar('B');  break; 
-        case 0xd093: this->printChar(0xa1); break; 
-        case 0xd094: this->printChar(0xe0); break;
-        case 0xd095: this->printChar('E');  break; 
-        case 0xd081: this->printChar(0xa2); break; 
-        case 0xd096: this->printChar(0xa3); break; 
-        case 0xd097: this->printChar(0xa4); break; 
-        case 0xd098: this->printChar(0xa5); break;
-        case 0xd099: this->printChar(0xa6); break; 
-        case 0xd09a: this->printChar('K');  break; 
-        case 0xd09b: this->printChar(0xa7); break; 
-        case 0xd09c: this->printChar('M');  break; 
-        case 0xd09d: this->printChar('H');  break; 
-        case 0xd09e: this->printChar('O');  break; 
-        case 0xd09f: this->printChar(0xa8); break; 
-        case 0xd0a0: this->printChar('P');  break; 
-        case 0xd0a1: this->printChar('C');  break; 
-        case 0xd0a2: this->printChar('T');  break; 
-        case 0xd0a3: this->printChar(0xa9); break;
-        case 0xd0a4: this->printChar(0xaa); break; 
-        case 0xd0a5: this->printChar('X');  break; 
-        case 0xd0a6: this->printChar(0xe1); break;
-        case 0xd0a7: this->printChar(0xab); break;
-        case 0xd0a8: this->printChar(0xac); break;
-        case 0xd0a9: this->printChar(0xe2); break; 
-        case 0xd0aa: this->printChar(0xad); break; 
-        case 0xd0ab: this->printChar(0xae); break; 
-        case 0xd0ac: this->printChar(0xc4); break; // ь instead if Ь
-        case 0xd0ad: this->printChar(0xaf); break; 
-        case 0xd0ae: this->printChar(0xb0); break; 
-        case 0xd0af: this->printChar(0xb1); break; 
+        case 0xd090: this->printChar('A');         break; 
+        case 0xd091: this->printChar(0xa0);        break; 
+        case 0xd092: this->printChar('B');         break; 
+        case 0xd093: this->printChar(0xa1);        break; 
+        case 0xd094: this->printChar(0xe0);        break;
+        case 0xd095: this->printChar('E');         break; 
+        case 0xd081: this->printChar(0xa2);        break; 
+        case 0xd096: this->printChar(0xa3);        break; 
+        case 0xd097: this->printChar(0xa4);        break; 
+        case 0xd098: this->printChar(0xa5);        break;
+        case 0xd099: this->printChar(0xa6);        break; 
+        case 0xd09a: this->printChar('K');         break; 
+        case 0xd09b: this->printChar(0xa7);        break; 
+        case 0xd09c: this->printChar('M');         break; 
+        case 0xd09d: this->printChar('H');         break; 
+        case 0xd09e: this->printChar('O');         break; 
+        case 0xd09f: this->printChar(0xa8);        break; 
+        case 0xd0a0: this->printChar('P');         break; 
+        case 0xd0a1: this->printChar('C');         break; 
+        case 0xd0a2: this->printChar('T');         break; 
+        case 0xd0a3: this->printChar(0xa9);        break;
+        case 0xd0a4: this->printChar(0xaa);        break; 
+        case 0xd0a5: this->printChar('X');         break; 
+        case 0xd0a6: this->printChar(0xe1);        break;
+        case 0xd0a7: this->printChar(0xab);        break;
+        case 0xd0a8: this->printChar(0xac);        break;
+        case 0xd0a9: this->printChar(0xe2);        break; 
+        case 0xd0aa: this->printChar(0xad);        break; 
+        case 0xd0ab: this->printChar(0xae);        break; 
+        case 0xd0ac: this->printChar(0xc4);        break; // ь instead if Ь
+        case 0xd0ad: this->printChar(0xaf);        break; 
+        case 0xd0ae: this->printChar(0xb0);        break; 
+        case 0xd0af: this->printChar(0xb1);        break; 
 
         default: break;
     }
