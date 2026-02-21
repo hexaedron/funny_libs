@@ -9,6 +9,9 @@
 #include "DS18utils.h"
 #include <stdbool.h>
 
+#include "funny_defs.h"
+#include "funny_time.h"
+
 // CONST
 #define DS18_BAD_TEMP 0
 
@@ -137,6 +140,12 @@ class GyverDS18Single : public GyverOneWire {
     float getTemp() {
 
         return _tbuf / 16.0f;
+    }
+
+    // Получить температуру в виде int16_t, умноженную на 10, чтобы избежать использования float'ов
+    int16_t getTempX10() 
+    {
+        return (int32_t(_tbuf) * 5) / 8;
     }
 
     // Экспериментальный способ 
