@@ -41,6 +41,8 @@ class GyverDS18 : protected GyverDS18Single {
     using GyverDS18Single::getTemp;
     using GyverDS18Single::getTempInt;
     using GyverDS18Single::getTempRaw;
+    using GyverDS18Single::getTempX10;
+    using GyverDS18Single::getTempExperimental;
     using GyverDS18Single::isWaiting;
     using GyverDS18Single::ready;
     using GyverDS18Single::waitReady;
