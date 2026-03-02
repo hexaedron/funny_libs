@@ -7,6 +7,8 @@
 
 #include "GyverOneWire.h"
 #include "DS18utils.h"
+#include "DS18B20Search.h"
+
 #include <stdbool.h>
 
 #include "funny_defs.h"

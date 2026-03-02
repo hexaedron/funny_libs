@@ -21,6 +21,11 @@
 
 class GyverOneWire {
    public:
+   GyverOneWire() {}
+    GyverOneWire(uint8_t pin) {
+        setPin(pin);
+    }
+
     // установить пин
     void setPin(uint32_t pin) {
         _pin = pin;
@@ -65,7 +70,25 @@ class GyverOneWire {
             data >>= 1;
         }
         GWIRE_DELAY(1);
-        return 1;
+        return true;
+    }
+
+    // записать бит
+    bool writeBit(bool data) {
+        GWIRE_CLI();
+        _write(0);
+        if (data & 1) {
+            GWIRE_DELAY(GWIRE_WRITE_WAIT);
+            _write(1);
+            GWIRE_SEI();
+            GWIRE_DELAY(GWIRE_WRITE_SLOT - GWIRE_WRITE_WAIT);
+        } else {
+            GWIRE_DELAY(GWIRE_WRITE_SLOT - GWIRE_WRITE_WAIT);
+            _write(1);
+            GWIRE_SEI();
+            GWIRE_DELAY(GWIRE_WRITE_WAIT);
+        }
+        return true;
     }
 
     // прочитать бит
